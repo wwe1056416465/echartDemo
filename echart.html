@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maxmum-scale=1.0,user-scalable" >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #echar {
+      /* width: 400px; */
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+  <div id="echar"></div>
+</body>
+</html>
+
+<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+<script>
+  console.log(window);
+  console.log(echarts);
+  var echatEl = document.getElementById('echar')
+   var myChart = echarts.init(echatEl);
+            var option = {
+                //dataZoom-inside 内置型数据区域缩放组件 所谓内置 1平移：在坐标系中滑动拖拽进行数据区域平移。2缩放：PC端：鼠标在坐标系范围内滚轮滚动（MAC触控板类同;移动端：在移动端触屏上，支持两指滑动缩放。
+                dataZoom: [
+                    {
+                        type: 'inside', //1平移 缩放
+                        throttle:'50',//设置触发视图刷新的频率。单位为毫秒（ms）。
+                        minValueSpan:6,//用于限制窗口大小的最小值,在类目轴上可以设置为 5 表示 5 个类目
+                        start: 1,      //数据窗口范围的起始百分比 范围是：0 ~ 100。表示 0% ~ 100%。
+                        end: 50,       //数据窗口范围的结束百分比。范围是：0 ~ 100。
+                        zoomLock:true, //如果设置为 true 则锁定选择区域的大小，也就是说，只能平移，不能缩放。
+                    }
+                ],
+                // 主要用来控制图表四周留白
+                grid:{
+                    left:'15%',
+                    top:'10%',
+                },
+                // 提示框组件
+                tooltip: {
+                    trigger: 'axis',//坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用。
+                    backgroundColor:'#377CFF',//提示框浮层的背景颜色。
+                    axisPointer: { //去掉移动的指示线
+                        type: 'none'
+        
+                    },
+                    // 自定义提示框内容
+                    formatter: function (params, ticket, callback) {
+                        var text=params[0].data.date+': '+params[0].data.value
+                        return text;
+                    }
+                },
+                // 图例
+                // legend:{
+                //     type:'plain',
+                //     data:[{name:'营业额'}],
+                //     bottom:'4%'
+                // },
+                //直角坐标系 grid 中的 x 轴，
+                xAxis: {
+                    type: 'category', //'category' 类目轴，适用于离散的类目数据，为该类型时必须通过 data 设置类目数据。
+                   
+                    // 坐标轴轴线相关设置
+                    axisLine: {
+                        lineStyle: {
+                            color: '#E5E5E5', // 坐标轴线线的颜色。
+                        }
+                    },
+                    // 坐标轴刻度标签(类目,简单说就是x轴上的内容)的相关设置
+                    axisLabel: {
+                        //  是否显示坐标刻度标签(这了指是否显示x轴上的月份)
+                        show: true,
+                        // 标签文字的颜色
+                        color:'#999',
+                         // 类目样式设置(文档中没有这个属性了,但是设置了也有效)
+                        // textStyle: {
+                        //     color: '#999'   
+                        // }   
+                    },
+                     //x轴刻度线设置
+                    axisTick:{       
+                        "show":false
+                    },
+                    // 类目数据，在类目轴（type: 'category'）中有效。
+                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月','8月','9月','10月','11月','12月',
+                        // {
+                        //     value: '13月',
+                        //     // 突出13月,可以给个别类目设置独特样式更加显眼
+                        //     textStyle: {
+                        //         fontSize: 20,
+                        //         color: 'red'
+                        //     }
+                        // }
+                    ],
+
+                },
+               //直角坐标系 grid 中的 y 轴，
+                yAxis: {
+                    type: 'value',//'value' 数值轴，适用于连续数据。
+                     // 坐标轴轴线相关设置
+                    axisLine:{
+                        show:false //y轴线消失
+                    },
+                    // 坐标轴刻度标签(类目,简单说就是x轴上的内容)的相关设置
+                    axisLabel: {
+                        show: true,
+                        // 标签文字的颜色
+                        color:'#999',
+                        // 类目样式设置(文档中没有这个属性了,但是设置了也有效)
+                        // textStyle: {
+                        //     color: '#999'   
+                        // }   
+                    },
+                    //y轴刻度线设置
+                    axisTick:{       
+                        "show":false
+                    },
+
+                    splitNumber : 5,//坐标轴的分割段数，需要注意的是这个分割段数只是个预估值，最后实际显示的段数会在这个基础上根据分割后坐标轴刻度显示的易读程度作调整.在类目轴中无效。
+                    
+
+              
+                },
+                series: [{
+
+                    type: 'line',//折线图是用折线将各个数据点标志连接起来的图表，用于展现数据的变化趋势。和全局设置type效果一样,表示折线图
+
+                    // 系列中的数据内容数组。数组项通常为具体的数据项。
+                    data: [
+                        {value:1010,date:'2019年1月'},
+                        {value:1020,date:'2019年2月'},
+                        {value:1070,date:'2019年3月'},
+                        {value:1001,date:'2019年4月'},
+                        {value:1800,date:'2019年5月'},
+                        {value:1200,date:'2019年6月'},
+                        {value:1300,date:'2019年7月'},
+                        {value:1030,date:'2019年8月'},
+                        {value:1050,date:'2019年9月'},
+                        {value:1800,date:'2019年10月'},
+                        {value:1003,date:'2019年11月'},
+                        {value:1070,date:'2019年12月'},
+                    ],
+                    // 折线条的样式
+                    lineStyle: {
+                        color: '#377CFF',
+                        width: 1
+                    },
+                    // 折线拐点的样式
+                    itemStyle: {
+                        normal: { // 静止时：
+                            color: '#377CFF',
+                        },
+                        emphasis:{ // 鼠标经过时：
+                            color: '#377CFF',
+                        }
+                    },
+                    symbol:'circle',//拐点样式
+                    symbolSize: 6,//拐点大小
+                }]
+            };
+            myChart.setOption(option)
+
+</script>
